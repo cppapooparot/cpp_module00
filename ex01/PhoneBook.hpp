@@ -1,8 +1,9 @@
 #ifndef H_PHONEBOOK
 #define H_PHONEBOOK
 
-#include <string>
 #define MAX_CONTACT 8
+#//include <string>
+#include <iostream>
 #include "Contact.hpp"
 
 class PhoneBook
@@ -11,11 +12,14 @@ class PhoneBook
         Contact contacts[MAX_CONTACT];
         int nextIndex;
         int count;
+
+        void trim_contact();
     public:
         PhoneBook();
         bool add(Contact contact);
-        std::string search(int index);
+        void search(size_t index);
         void exit();
+        int get_count();
 };
 
 #endif

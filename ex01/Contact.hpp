@@ -11,13 +11,16 @@ class Contact
         std::string surname;
         std::string nickname;
         std::string phone_number;
+        std::string darkest_secret;
     public:
+        Contact();
         Contact(std::string name, std::string surname, std::string nickname,
-            std::string phone_number);
+            std::string phone_number, std::string darkest_secret);
         std::string get_name();
         std::string get_surname();
         std::string get_nickname();
         std::string get_phone_number();
+        Contact trim_contact();
 };
 
 #endif
