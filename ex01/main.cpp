@@ -160,7 +160,6 @@ static bool search(PhoneBook& pb)
         std::cout << "Enter index of the contact (1-" << pb.get_count() << ")" << std::endl;
 
         int index;
-        // We use getline elsewhere, so ensure any pending newline doesn't break parsing.
         if (std::cin.peek() == '\n')
             std::cin.get();
         if (!(std::cin >> index))
@@ -176,8 +175,6 @@ static bool search(PhoneBook& pb)
             std::cerr << "Please enter a number." << std::endl;
             continue;
         }
-
-        // consume the rest of the line after the number
         std::string rest;
         std::getline(std::cin, rest);
 
