@@ -2,6 +2,7 @@
 #include "PhoneBook.hpp"
 #include <cctype>
 #include <cstddef>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 
@@ -92,7 +93,16 @@ static std::string prompt_token(const std::string& prompt)
 {
     std::cout << prompt << std::endl;
     std::string s;
-    std::cin >> s;
+    if (!std::getline(std::cin, s))
+    {
+        if (std::cin.eof())
+        {
+            std::cerr << "Input closed." << std::endl;
+            std::exit(EXIT_SUCCESS);
+        }
+        std::cin.clear();
+        return std::string();
+    }
     return s;
 }
 typedef bool (*ValidatorFn)(const std::string&);
@@ -143,11 +153,16 @@ static bool search(PhoneBook& pb)
         return false;
     }
 
+    pb.print_contacts();
+
     while (true)
     {
         std::cout << "Enter index of the contact (1-" << pb.get_count() << ")" << std::endl;
 
         int index;
+        // We use getline elsewhere, so ensure any pending newline doesn't break parsing.
+        if (std::cin.peek() == '\n')
+            std::cin.get();
         if (!(std::cin >> index))
         {
             if (std::cin.eof())
@@ -162,13 +177,17 @@ static bool search(PhoneBook& pb)
             continue;
         }
 
+        // consume the rest of the line after the number
+        std::string rest;
+        std::getline(std::cin, rest);
+
         if (index < 1 || index > pb.get_count())
         {
             std::cerr << "Invalid index. Try again." << std::endl;
             continue;
         }
 
-        pb.search(static_cast<size_t>(index));
+    pb.print_contact_details(static_cast<size_t>(index));
         return true;
     }
 }
@@ -181,7 +200,13 @@ int main()
     while (true)
     {
         std::cout << "Enter your command [ADD, SEARCH, EXIT]:" << std::endl;
-        std::cin >> instruction;
+        if (!std::getline(std::cin, instruction))
+        {
+            std::cerr << "Input closed." << std::endl;
+            break;
+        }
+        if (instruction.empty())
+            continue;
 
         if (!check_instruction(instruction))
             continue;
@@ -189,7 +214,7 @@ int main()
         if (instruction == "ADD")
         {
             if (add(pb))
-                std::cout << "The contact was saved succesfully" << std::endl;
+                std::cout << "The contact was saved successfully" << std::endl;
         }
         else if (instruction == "SEARCH")
         {
