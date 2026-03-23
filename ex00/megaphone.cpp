@@ -11,10 +11,14 @@ int main(int argc, char **argv)
         {
             for (int j = 0; argv[i][j]; ++j)
             {
-                std::cout << static_cast<unsigned char>(std::toupper(static_cast<unsigned char>(argv[i][j])));
+                std::cout << static_cast<char>(
+                    std::toupper(static_cast<unsigned char>(argv[i][j]))
+                );
             }
+            if (i + 1 < argc)
+                std::cout << ' ';
         }
+        std::cout << std::endl;
     }
-    std::cout << std::endl;
     return 0;
 }
