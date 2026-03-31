@@ -18,7 +18,7 @@ class PhoneBook
     void search(size_t index);
     void print_contacts() const;
     void print_contact_details(size_t index) const;
-        int get_count();
+    int get_count();
 };
 
 #endif

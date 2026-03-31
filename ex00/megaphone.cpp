@@ -15,8 +15,6 @@ int main(int argc, char **argv)
                     std::toupper(static_cast<unsigned char>(argv[i][j]))
                 );
             }
-            if (i + 1 < argc)
-                std::cout << ' ';
         }
         std::cout << std::endl;
     }

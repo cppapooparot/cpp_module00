@@ -3,25 +3,23 @@ NAME = phonebook
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRCS = $(wildcard *.cpp)
-OBJS = $(SRCS:.cpp=.o)
+SRC = Contact.cpp PhoneBook.cpp main.cpp
+OBJ = $(SRC:.cpp=.o)
 
-HEADERS = $(wildcard *.h) $(wildcard *.hpp)
+RM = rm -f
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+$(NAME): $(OBJ)
+	$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)
 
-%.o: %.cpp $(HEADERS)
+%.o: %.cpp Contact.hpp PhoneBook.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	$(RM) $(OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all
-
-.PHONY: all clean fclean re
